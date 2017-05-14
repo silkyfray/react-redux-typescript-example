@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-class Catalog extends React.Component<any, any> {
+class CatalogPage extends React.Component<any, any> {
 
     render() {
         return <div>
@@ -9,4 +9,4 @@ class Catalog extends React.Component<any, any> {
     }
 }
 
-export default Catalog;
+export default CatalogPage;

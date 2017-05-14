@@ -1,8 +1,10 @@
-
 import CatalogReducer from "./CatalogReducer"
+import { reducer as formReducer } from 'redux-form'
+
 
 const reducers = {
-    CatalogReducer
+    catalog: CatalogReducer,
+    form: formReducer
 }
 
 export default reducers;

@@ -6,6 +6,9 @@ module.exports = {
         filename: 'index_bundle.js',
         path: __dirname + "/dist"
     },
+    devServer: {
+        proxy: { '/api/*': 'http://localhost:3001' }
+    },
     module: {
         rules: [
             {
@@ -23,15 +26,16 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: "source-map-loader"
             },
+            {   test: /\.css$/, loader: "style-loader!css-loader" },
             {
-              test: /\.scss$/,
-              use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-              }, {
-                loader: "css-loader" // translates CSS into CommonJS
-              }, {
-                loader: "sass-loader" // compiles Sass to CSS
-              }]
+                test: /\.scss$/,
+                use: [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "sass-loader" // compiles Sass to CSS
+                }]
             }
         ]
     },

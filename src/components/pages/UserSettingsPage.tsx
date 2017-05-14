@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-class UserSettings extends React.Component<any, any> {
+class UserSettingsPage extends React.Component<any, any> {
 
     render() {
         return <div>
@@ -9,4 +9,4 @@ class UserSettings extends React.Component<any, any> {
     }
 }
 
-export default UserSettings;
+export default UserSettingsPage;

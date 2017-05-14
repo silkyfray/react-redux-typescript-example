@@ -1,48 +1,49 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
+import "skeleton-css/css/skeleton.css"
 import "./css/index.scss";
 
+// redux
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import reducers from './reducers'
 
+// routing
 import createHistory from 'history/createBrowserHistory'
 import { Route } from 'react-router'
-
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
-import reducers from './reducers' // Or wherever you keep your reducers
+// logger
+import logger from 'redux-logger'
 
 //Components
-import Catalog from "./components/Catalog"
-import UserSettings from "./components/UserSettings"
-
+import CatalogPage from "./components/pages/CatalogPage"
+import UserSettingsPage from "./components/pages/UserSettingsPage"
+import SubmitDesignPage from "./components/pages/SubmitDesignPage"
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
 
 // Build the middleware for intercepting and dispatching navigation actions
-const middleware = routerMiddleware(history)
+const routermiddleware = routerMiddleware(history)
 
-// Add the reducer to your store on the `router` key
-// Also apply our middleware for navigating
+// init store
 const store = createStore(
   combineReducers({
     ...reducers,
     router: routerReducer
   }),
-  applyMiddleware(middleware)
+  applyMiddleware(routermiddleware, logger)
 )
-
-store.dispatch(push("/settings"))
 
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
       <div>
-        <Route exact path="/" component={Catalog}/>
-        <Route path="/test" component={Catalog}/>
-        <Route path="/settings" component={UserSettings}/>
+        <Route exact path="/" component={CatalogPage}/>
+        <Route path="/submit" component={SubmitDesignPage}/>
+        <Route path="/settings" component={UserSettingsPage}/>
       </div>
     </ConnectedRouter>
   </Provider>,
