@@ -1,6 +1,7 @@
 // imports vendor
 var express = require('express')
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 var bodyParser = require("body-parser")
 var url = require("url");
 var http = require("http");
@@ -34,9 +35,10 @@ app.post("/api/design", function (req, res) {
   rp.get(designUrl)
     .then(function (pingResponse) {
       // at this point we have verified that url is valid
-
       // TODO: handle redirects
-
+      Promise.resolve();
+    })
+    .then(function () {
       // get the hostname to verify uniqueness
       let parsedUrl = url.parse(designUrl);
       let hostname = parsedUrl.hostname;
@@ -44,25 +46,36 @@ app.post("/api/design", function (req, res) {
       if (!hostname)
         hostname = parsedUrl.pathname
       // check if that design has been submitted already
-      models.DesignModel.findOne({ "url": new RegExp(hostname, "i") })
-        .then(design => {
-          // end request if found
-          if (design) {
-            res.end("A url for that website has already been submitted before.");
-          }
-
-          // take a snaphost of the website
-          helpers.getUrlSnapshost(designUrl);
-
-          res.sendStatus(200);
-        })
-        .catch(err => {
-          res.end("Error processing request:", err);
-        });
-
-    }).catch(function (err) {
-      res.end("Could not find a website at that url.");
-    });
+      return models.DesignModel.findOne({ "url": new RegExp(hostname, "i") }).exec();
+    })
+    .then(function (design) {
+      // end request if found
+      if (design) {
+        throw new Error("A url for that website has already been submitted before.")
+     }
+      else {
+        return helpers.getUrlSnapshost(designUrl);
+      }
+      // take a snaphost of the website
+    })
+    .then(function (image) {
+      // create a model
+      let designModel = new models.DesignModel({
+        url: designUrl,
+        description: description,
+        title: title,
+        imageData: image,
+        added: Date.now(),
+        pending: true
+      });
+      return designModel.save();
+    })
+    .then(function (design) {
+      res.status(200).send("Entered submission for:" + designUrl);
+    })
+    .catch(function (err) {
+      res.status(400).send("Could not fulfill request. Reason:" + err);
+    })
 })
 
 app.get("/api/heartbeat", function (req, res) {

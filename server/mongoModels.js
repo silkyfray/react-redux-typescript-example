@@ -8,6 +8,7 @@ var DesignSchema = mongoose.Schema({
     tags: Array,
     title: String,
     description: String,
+    imageData: String,
     likes: Number,
     submitterId: String,
     pending: Boolean
