@@ -1,4 +1,4 @@
-import {CatalogState} from "../Models/Models"
+import {CatalogState} from "../models/state"
 
 const CatalogReducer = (state: CatalogState = {dummy: "dummy"} , action: any): any => {
     return state;

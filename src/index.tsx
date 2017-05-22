@@ -7,6 +7,7 @@ import "./css/index.scss";
 // redux
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import thunk from "redux-thunk"
 import reducers from './reducers'
 
 // routing
@@ -21,6 +22,11 @@ import logger from 'redux-logger'
 import CatalogPage from "./components/pages/CatalogPage"
 import UserSettingsPage from "./components/pages/UserSettingsPage"
 import SubmitDesignPage from "./components/pages/SubmitDesignPage"
+import ApprovalPage from "./components/pages/ApprovalPage"
+
+//Models
+import {AppState} from "./models/state"
+
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
 
@@ -28,12 +34,18 @@ const history = createHistory()
 const routermiddleware = routerMiddleware(history)
 
 // init store
-const store = createStore(
-  combineReducers({
+const defaultState: AppState = {
+  approval: {designs:[] },
+  catalog: {dummy: ""}
+}
+
+const store = createStore<AppState>(
+  combineReducers<AppState>({
     ...reducers,
     router: routerReducer
   }),
-  applyMiddleware(routermiddleware, logger)
+  //defaultState,
+  applyMiddleware(thunk, routermiddleware, logger)
 )
 
 ReactDOM.render(
@@ -42,6 +54,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={CatalogPage}/>
+        <Route path="/approval" component={ApprovalPage}/>
         <Route path="/submit" component={SubmitDesignPage}/>
         <Route path="/settings" component={UserSettingsPage}/>
       </div>

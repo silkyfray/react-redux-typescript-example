@@ -9,6 +9,7 @@ var rp = require("request-promise");
 
 // imports app
 var constants = require("../shared/constants")
+var apiEndpoints = require("../shared/apiEndpoints")
 var models = require("./mongoModels")
 var helpers = require("./helpers")
 
@@ -28,6 +29,7 @@ db.once('open', function () {
   console.log("Connected to Mongo database");
 });
 
+// endpoint to write a new design for approval
 app.post("/api/design", function (req, res) {
   // parse the body for the design info
   let { designUrl, title, description } = req.body;
@@ -77,6 +79,17 @@ app.post("/api/design", function (req, res) {
       res.status(400).send("Could not fulfill request. Reason:" + err);
     })
 })
+
+// endpoint to read the approvals
+app.get(apiEndpoints.kApiReadApprovals, function(req, res) {
+    let findPending = models.DesignModel.find({ "pending": true }).exec();
+    findPending.then(function(designs){
+        res.status(200).json(designs);
+    })
+    .catch(function(err){
+        res.status(400).end("Could not fetch pending designs");
+    });
+});
 
 app.get("/api/heartbeat", function (req, res) {
   res.send("Successful connection through proxy.")
