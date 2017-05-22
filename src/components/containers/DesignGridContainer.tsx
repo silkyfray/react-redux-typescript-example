@@ -20,7 +20,7 @@ interface IDesignGridOwnProps {
 type IDesignGridProps = IDesignGridStateProps & IDesignGridDispatchProps & IDesignGridOwnProps;
 
 function mapStateToProps(state: AppState) {
-    let newProps = { approvalState: state.approval}
+    let newProps = { approvalState: state.approval }
     return newProps;
 }
 
@@ -43,9 +43,13 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
 
     render() {
         return <div>
-            {   this.props.approvalState &&
+            {this.props.approvalState &&
                 this.props.approvalState.designs.map(function (design, key) {
-                    return <div key={key}>{design.url}</div>
+                    let imageData = "data:image/jpg;base64,"+ design.imageData;
+                    return <div key={key}>
+                        <img src={imageData} />
+                        <div>{design.url}</div>
+                    </div>
                 })
             }
         </div>

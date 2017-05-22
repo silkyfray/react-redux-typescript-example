@@ -2,17 +2,17 @@ var http = require("http");
 var rp = require("request-promise");
 
 var testData = [
-    "http://familyorbit.com",
-    "http://www.stereodose.com/",
-    "http://erppy.co/",
-    "http://www.fallingfalling.com/",
-    "http://weavesilk.com/",
-    "http://29a.ch/sandbox/2011/neonflames/#",
-    "http://codepen.io/davidpanik/full/myMrLx/",
-    "http://stars.chromeexperiments.com/",
-    "http://www.ro.me/",
-    "http://labs.dinahmoe.com/plink/",
-    "http://imgur.com/a/4rn0o"
+    "http://www.carolynparker.com/",
+    "http://kube.frederiksberg.dk/",
+    "http://www.futuremobility.se/",
+    "http://www.highfivebro.com/",
+    "http://www.chateauversailles.fr/",
+    "http://lookbook.slam.com/",
+    "http://www.volleyball.ca/en",
+    "http://www.playinglynch.com/",
+    "https://justcoded.com/",
+    "https://www.krealid.com/",
+    "https://madebyfalcon.co.uk/"
     ]
 
 testData.forEach(function(design) {
