@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import * as apiRequests from "../../middleware/apiRequests"
 import { AppState, ApprovalGridState } from "../../models/state"
 
+import DesignThumbnail from "../stateless/DesignThumbnail"
 
 interface IDesignGridStateProps {
     approvalState: ApprovalGridState
@@ -42,14 +43,11 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
     }
 
     render() {
-        return <div>
+        return <div className="DesignGrid">
             {this.props.approvalState &&
                 this.props.approvalState.designs.map(function (design, key) {
-                    let imageData = "data:image/jpg;base64,"+ design.imageData;
-                    return <div key={key}>
-                        <img src={imageData} />
-                        <div>{design.url}</div>
-                    </div>
+                    let imageData = "data:image/jpg;base64," + design.imageData;
+                    return <DesignThumbnail key={key} imageData={imageData} url={design.url}/>
                 })
             }
         </div>

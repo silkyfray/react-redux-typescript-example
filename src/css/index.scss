@@ -2,3 +2,22 @@ html, body {
   margin: 0;
   height: 100%;
 }
+
+
+.DesignGrid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #eee;
+}
+
+.DesignItem {
+  min-width: 400px;
+  flex-basis: 30%;
+  margin: 10px;
+
+  img {
+    width: 100%;
+  }
+}
