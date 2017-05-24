@@ -29,12 +29,40 @@ db.once('open', function () {
   console.log("Connected to Mongo database");
 });
 
+// endpoint to approve a design
+app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
+  let {designUrl} = req.body;
+  // find the mongo object
+  models.DesignModel.findOne({ "url": new RegExp(designUrl, "i") }).exec()
+    .then((doc) => {
+      if(doc){
+        // flip the approve switch
+        doc.pending = false;
+        doc.save();
+        res.status(200).end("Successfully approved design!");
+      }
+    })
+    .catch((error) => {
+        res.end(404).end(error);
+    })
+})
+
 // endpoint to write a new design for approval
-app.post("/api/design", function (req, res) {
+app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
   // parse the body for the design info
   let { designUrl, title, description } = req.body;
 
-  rp.get(designUrl)
+  if(!(designUrl.startsWith("http") && designUrl.startsWith("https")))
+  {
+    // assume http
+    designUrl = "http://"+ designUrl;
+  }
+  
+  var options = {
+    uri: designUrl,
+    followRedirect: true,
+  }
+  rp.get(options)
     .then(function (pingResponse) {
       // at this point we have verified that url is valid
       // TODO: handle redirects
@@ -54,7 +82,7 @@ app.post("/api/design", function (req, res) {
       // end request if found
       if (design) {
         throw new Error("A url for that website has already been submitted before.")
-     }
+      }
       else {
         return helpers.getUrlSnapshost(designUrl);
       }
@@ -81,13 +109,13 @@ app.post("/api/design", function (req, res) {
 })
 
 // endpoint to read the approvals
-app.get(apiEndpoints.kApiReadApprovals, function(req, res) {
-    let findPending = models.DesignModel.find({ "pending": true }).exec();
-    findPending.then(function(designs){
-        res.status(200).json(designs);
-    })
-    .catch(function(err){
-        res.status(400).end("Could not fetch pending designs");
+app.get(apiEndpoints.kApiReadApprovals, function (req, res) {
+  let findPending = models.DesignModel.find({ "pending": true }).exec();
+  findPending.then(function (designs) {
+    res.status(200).json(designs);
+  })
+    .catch(function (err) {
+      res.status(400).end("Could not fetch pending designs");
     });
 });
 
