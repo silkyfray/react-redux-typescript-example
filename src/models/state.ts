@@ -6,7 +6,9 @@ export interface AppState {
 }
 
 export interface ApprovalGridState {
-    designs: requestInterface.IDesignData[]
+    designs: requestInterface.IDesignData[],
+    skip: number,
+    hasMore: boolean
 }
 
 export interface CatalogState {

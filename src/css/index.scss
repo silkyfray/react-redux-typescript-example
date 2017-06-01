@@ -12,7 +12,7 @@ html, body {
   background-color: #eee;
 }
 
-.DesignItem {
+.DesignItem { 
   min-width: 400px;
   flex-basis: 30%;
   margin: 10px;
@@ -20,4 +20,8 @@ html, body {
   img {
     width: 100%;
   }
+}
+
+.redux-infinite-scroll {
+  overflow: hidden;
 }

@@ -34,10 +34,10 @@ const history = createHistory()
 const routermiddleware = routerMiddleware(history)
 
 // init store
-const defaultState: AppState = {
-  approval: {designs:[] },
-  catalog: {dummy: ""}
-}
+// const defaultState: AppState = {
+//   approval: {designs:[] },
+//   catalog: {dummy: ""}
+// }
 
 const store = createStore<AppState>(
   combineReducers<AppState>({
