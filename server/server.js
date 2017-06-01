@@ -31,11 +31,11 @@ db.once('open', function () {
 
 // endpoint to approve a design
 app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
-  let {designUrl} = req.body;
+  let { designUrl } = req.body;
   // find the mongo object
   models.DesignModel.findOne({ "url": new RegExp(designUrl, "i") }).exec()
     .then((doc) => {
-      if(doc){
+      if (doc) {
         // flip the approve switch
         doc.pending = false;
         doc.save();
@@ -43,7 +43,7 @@ app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
       }
     })
     .catch((error) => {
-        res.end(404).end(error);
+      res.end(404).end(error);
     })
 })
 
@@ -52,12 +52,11 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
   // parse the body for the design info
   let { designUrl, title, description } = req.body;
 
-  if(!(designUrl.startsWith("http") && designUrl.startsWith("https")))
-  {
+  if (!(designUrl.startsWith("http") && designUrl.startsWith("https"))) {
     // assume http
-    designUrl = "http://"+ designUrl;
+    designUrl = "http://" + designUrl;
   }
-  
+
   var options = {
     uri: designUrl,
     followRedirect: true,
@@ -65,7 +64,6 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
   rp.get(options)
     .then(function (pingResponse) {
       // at this point we have verified that url is valid
-      // TODO: handle redirects
       Promise.resolve();
     })
     .then(function () {
@@ -108,9 +106,22 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
     })
 })
 
+// endpoint to read the number of approvals
+app.get(apiEndpoints.kApiNumApprovals, function (req, res) {
+  let query = models.DesignModel.count({ "pending": true }).exec();
+  query.then(function (designs) {
+    res.status(200).json(designs);
+  })
+    .catch(function (err) {
+      res.status(400).end("Could fetch number of approvals");
+    });
+});
+
 // endpoint to read the approvals
 app.get(apiEndpoints.kApiReadApprovals, function (req, res) {
-  let findPending = models.DesignModel.find({ "pending": true }).exec();
+  skip = parseInt(req.query.skip);
+  limit = parseInt(req.query.limit);
+  let findPending = models.DesignModel.find({ "pending": true }, null, {"skip": skip, "limit": limit}).exec();
   findPending.then(function (designs) {
     res.status(200).json(designs);
   })
