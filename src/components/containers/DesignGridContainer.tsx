@@ -3,17 +3,16 @@ import { connect } from "react-redux"
 import InfiniteScoller from "redux-infinite-scroll"
 
 import * as apiRequests from "../../middleware/apiRequests"
-import { AppState, GridState } from "../../models/state"
+import { AppState, GridState,GridDataState } from "../../models/state"
 
 import DesignThumbnail from "../stateless/DesignThumbnail"
 
 interface IDesignGridStateProps {
-    gridState: GridState
+    gridState: GridDataState
 }
 
 interface IDesignGridDispatchProps {
-    readApprovals: () => void;
-    readCatalog: () => void;
+    readDesigns: () => void;
 }
 
 interface IDesignGridOwnProps {
@@ -22,15 +21,14 @@ interface IDesignGridOwnProps {
 
 type IDesignGridProps = IDesignGridStateProps & IDesignGridDispatchProps & IDesignGridOwnProps;
 
-function mapStateToProps(state: AppState) {
-    let newProps = { gridState: state.grid }
+function mapStateToProps(state: AppState, ownProps: IDesignGridOwnProps) {
+    let newProps = { gridState: ownProps.approval ? state.grid.approval : state.grid.catalog }
     return newProps;
 }
 
-function mapDispatchToProps(dispatch) {
-    let readApprovals = (): void => dispatch(apiRequests.loadDesigns(true));
-    let readCatalog = (): void => dispatch(apiRequests.loadDesigns(false));
-    let newProps = { readApprovals, readCatalog }
+function mapDispatchToProps(dispatch, ownProps: IDesignGridOwnProps) {
+    let readDesigns = (): void => dispatch(apiRequests.loadDesigns(ownProps.approval));
+    let newProps = { readDesigns }
     return newProps;
 }
 
@@ -49,11 +47,11 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
 
     loadMore() {
         console.log('loading More');
-        this.props.approval ? this.props.readApprovals() : this.props.readCatalog(); 
+        this.props.readDesigns();
     }
 
     createData() {
-        let gridData = this.props.approval ? this.props.gridState.approval.data : this.props.gridState.catalog.data;
+        let gridData = this.props.gridState.data;
         return gridData.map(function (design, key) {
             let imageData = "data:image/jpg;base64," + design.imageData;
             return <DesignThumbnail key={key} imageData={imageData} url={design.url} />
@@ -65,7 +63,7 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
             className="DesignGrid"
             elementIsScrollable = {false}
             loadMore={this.loadMore.bind(this)}
-            hasMore={this.props.approval ? this.props.gridState.approval.hasMore : this.props.gridState.catalog.hasMore}
+            hasMore={this.props.gridState.hasMore}
             showLoader={false}
             threshold={400}
             items={this.createData()} />
