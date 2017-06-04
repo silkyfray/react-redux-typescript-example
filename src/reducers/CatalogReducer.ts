@@ -1,8 +1,8 @@
-import {CatalogState} from "../models/state"
+// import {CatalogState} from "../models/state"
 
-const CatalogReducer = (state: CatalogState = {dummy: "dummy"} , action: any): any => {
-    return state;
-}
+// const CatalogReducer = (state: CatalogState = {dummy: "dummy"} , action: any): any => {
+//     return state;
+// }
 
-export default CatalogReducer;
+// export default CatalogReducer;
 

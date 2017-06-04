@@ -1,16 +1,16 @@
 import * as requestInterface from "./requestInterface"
 
 export interface AppState {
-    catalog: CatalogState,
-    approval: ApprovalGridState
+    grid: GridState,
 }
 
-export interface ApprovalGridState {
-    designs: requestInterface.IDesignData[],
+export interface GridState {
+    catalog: GridDataState,
+    approval: GridDataState,
+}
+
+export interface GridDataState {
+    data: requestInterface.IDesignData[],
     skip: number,
     hasMore: boolean
 }
-
-export interface CatalogState {
-    dummy: string
-} 

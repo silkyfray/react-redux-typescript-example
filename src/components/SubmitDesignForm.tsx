@@ -2,13 +2,14 @@ import * as React from 'react'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import {connect} from "react-redux"
 import Axios from "axios"
+import * as apiEndpoints from "../../shared/apiEndpoints"
 
 class SubmitDesignForm extends React.Component<any, any> {
 
     submitDesign() {
         let {url, title, description} = this.props;
         // make server call
-        Axios.post("/api/design", {designUrl:url, title, description})
+        Axios.post(apiEndpoints.kApiSubmitDesign, {designUrl:url, title, description})
         .then((response) => {
             console.log(response);
         })

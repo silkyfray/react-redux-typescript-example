@@ -1,11 +1,9 @@
-import CatalogReducer from "./CatalogReducer"
-import ApprovalReducer from "./ApprovalReducer"
+import GridReducer from "./GridReducer"
 import { reducer as formReducer } from 'redux-form'
 
 
 const reducers = {
-    catalog: CatalogReducer,
-    approval: ApprovalReducer,
+    grid: GridReducer,
     form: formReducer
 }
 

@@ -1,10 +1,12 @@
 import * as React from 'react'
 
+import DesignGridContainer from "../containers/DesignGridContainer"
+
 class CatalogPage extends React.Component<any, any> {
 
     render() {
         return <div>
-            Hello Catalog
+            <DesignGridContainer approval={false}/>
         </div>
     }
 }

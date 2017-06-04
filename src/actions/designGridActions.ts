@@ -5,6 +5,7 @@ import {IDesignData} from "../models/requestInterface"
 //export type DesignGridActionType = "A" | "B"
 export const Type = {
     PopulateApprovalGrid: "PopulateApprovalGrid",
+    PopulateCatalogGrid: "PopulateCatalogGrid",
     ReportFetchError: "ReportFetchError"
 }
 
@@ -17,6 +18,13 @@ export interface DesignGridAction extends Redux.Action {
 export const populateApprovalGrid = (data: IDesignData[]): DesignGridAction => {
     return {
         type: Type.PopulateApprovalGrid,
+        data
+    }
+}
+
+export const populateCatalogGrid = (data: IDesignData[]): DesignGridAction => {
+    return {
+        type: Type.PopulateCatalogGrid,
         data
     }
 }
