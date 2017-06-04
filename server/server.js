@@ -119,9 +119,9 @@ app.get(apiEndpoints.kApiNumApprovals, function (req, res) {
 
 // endpoint to read the approvals
 app.get(apiEndpoints.kApiReadDesigns, function (req, res) {
-  skip = parseInt(req.query.skip);
-  limit = parseInt(req.query.limit);
-  pending = parseInt(req.query.approval);
+  let skip = parseInt(req.query.skip);
+  let limit = parseInt(req.query.limit);
+  let pending = (req.query.approval == "true");
   let findPending = models.DesignModel.find({ "pending": pending }, null, {"skip": skip, "limit": limit}).exec();
   findPending.then(function (designs) {
     res.status(200).json(designs);
