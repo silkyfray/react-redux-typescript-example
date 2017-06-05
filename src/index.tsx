@@ -11,7 +11,7 @@ import thunk from "redux-thunk"
 import reducers from './reducers'
 
 // routing
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createHashHistory'
 import { Route } from 'react-router'
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
@@ -23,6 +23,7 @@ import CatalogPage from "./components/pages/CatalogPage"
 import UserSettingsPage from "./components/pages/UserSettingsPage"
 import SubmitDesignPage from "./components/pages/SubmitDesignPage"
 import ApprovalPage from "./components/pages/ApprovalPage"
+import ApproveDesignPage from "./components/pages/ApproveDesignPage"
 
 //Models
 import {AppState} from "./models/state"
@@ -55,7 +56,7 @@ ReactDOM.render(
       <div>
         <Route exact path="/" component={CatalogPage}/>
         <Route path="/approval" component={ApprovalPage}/>
-        <Route path="/submit" component={SubmitDesignPage}/>
+        <Route path="/submit/:designId?" component={SubmitDesignPage}/>
         <Route path="/settings" component={UserSettingsPage}/>
       </div>
     </ConnectedRouter>

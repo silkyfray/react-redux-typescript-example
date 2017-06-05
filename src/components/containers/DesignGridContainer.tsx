@@ -1,9 +1,12 @@
 import * as React from 'react'
+import { push } from "react-router-redux"
 import { connect } from "react-redux"
 import InfiniteScoller from "redux-infinite-scroll"
 
 import * as apiRequests from "../../middleware/apiRequests"
-import { AppState, GridState,GridDataState } from "../../models/state"
+import { AppState, GridState, GridDataState } from "../../models/state"
+import { IDesignData } from "../../models/requestInterface"
+
 
 import DesignThumbnail from "../stateless/DesignThumbnail"
 
@@ -13,6 +16,7 @@ interface IDesignGridStateProps {
 
 interface IDesignGridDispatchProps {
     readDesigns: () => void;
+    onClickHandler:(designId: string) => void;
 }
 
 interface IDesignGridOwnProps {
@@ -28,7 +32,14 @@ function mapStateToProps(state: AppState, ownProps: IDesignGridOwnProps) {
 
 function mapDispatchToProps(dispatch, ownProps: IDesignGridOwnProps) {
     let readDesigns = (): void => dispatch(apiRequests.loadDesigns(ownProps.approval));
-    let newProps = { readDesigns }
+
+    let onClickHandler = (designId: string) : void => {
+        let callbackUrlBase = ownProps.approval ? "submit" : "design";
+        console.log("hi", designId);
+        dispatch(push("/" + callbackUrlBase + "/" + designId));
+    }
+
+    let newProps = { readDesigns, onClickHandler }
     return newProps;
 }
 
@@ -50,18 +61,22 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
         this.props.readDesigns();
     }
 
+    onClickHandler(designId: string) {
+        let callbackUrlBase = this.props.approval ? "approval" : "design";
+        console.log("hi", designId);
+    }
+
     createData() {
         let gridData = this.props.gridState.data;
         return gridData.map(function (design, key) {
-            let imageData = "data:image/jpg;base64," + design.imageData;
-            return <DesignThumbnail key={key} imageData={imageData} url={design.url} />
-        })
+            return <DesignThumbnail key={key} design={design} onClick={(designId) => this.props.onClickHandler(designId)} />
+        }, this)
     }
 
     render() {
         let x = <InfiniteScoller
             className="DesignGrid"
-            elementIsScrollable = {false}
+            elementIsScrollable={false}
             loadMore={this.loadMore.bind(this)}
             hasMore={this.props.gridState.hasMore}
             showLoader={false}

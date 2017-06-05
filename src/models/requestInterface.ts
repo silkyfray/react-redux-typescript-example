@@ -1,6 +1,6 @@
 
 export interface IDesignData {
-    id: string,
+    _id: string,
     url:string,
     added: Date,
     tags: string[],
