@@ -14,13 +14,34 @@ export function loadDesigns(approval: boolean) {
             params: {
                 skip: dataState.skip, limit: limit, approval: approval
             }
-        })
-            .then(data => {
+        }).then(data => {
                 approval ? dispatch(actions.designGridActions.populateApprovalGrid(data.data))
                     : dispatch(actions.designGridActions.populateCatalogGrid(data.data))
 
             })
-            .catch(err => dispatch(actions.designGridActions.reportFetchError(err)))
+            // TODO: do reporting
+            .catch(err => {
+                let x = 0;
+                // dispatch(actions.designGridActions.reportFetchError(err))
+            } )
+    }
+    return promise;
+}
+
+export function readDesign(designId: string) {
+    let promise = (dispatch, getState) => {
+        axios.get(api.kApiReadDesign, {
+            params: {
+                designId: designId
+            }
+        }).then(data => {
+             dispatch(actions.designFormActions.loadApprove(data.data))
+             })
+            // TODO: do reporting
+            .catch(err => {   
+                let x = 0;
+                //dispatch(actions.designGridActions.reportFetchError(err))
+            } )
     }
     return promise;
 }

@@ -1,27 +1,12 @@
 import * as React from 'react'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { connect } from "react-redux"
-import Axios from "axios"
-import * as apiEndpoints from "../../shared/apiEndpoints"
+
+import * as state from "../models/state"
 
 class SubmitDesignForm extends React.Component<any, any> {
-    componentDidMount() {
-        let x = 0;
-    }
-
-    submitDesign(values) {
-        let { url, title, description } = this.props;
-        // make server call
-        // Axios.post(apiEndpoints.kApiSubmitDesign, { designUrl: url, title, description })
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });          
-    }
-    
     render() {
+        const {handleSubmit} = this.props;
         return (
             <div>
                 <div className="container">
@@ -44,23 +29,23 @@ class SubmitDesignForm extends React.Component<any, any> {
     }
 }
 
-let X = reduxForm({
-    form: "submitDesign"
+let ConnectedSubmitDesignForm = reduxForm({
+    form: "submitDesign",
+    enableReinitialize : true
 })(SubmitDesignForm);
 
-const selector = formValueSelector('submitDesign') // <-- same as form name
+// The values should be in the form { field1: 'value1', field2: 'value2' } i.e a Field in the form with <name> should have a key in the dictionary with <name>
+function mapStateToProps(state: state.AppState, ownProps: any) {
+    let initialProps = {
+        initialValues: {
+            "url": state.designForm.url,
+            "title": state.designForm.title,
+            "description": state.designForm.description,
+        }
+    }
+    return initialProps;
+}
 
 export default connect<any, any, any>(
-    state => {
-    }
-)(X)
-
-// export default connect<any, any, any>(
-//     state => {
-//         return {
-//             "url": selector(state, "url"),
-//             "title": selector(state, "title"),
-//             "description": selector(state, "description")
-//         }
-//     }
-// )(X)
+    mapStateToProps
+)(ConnectedSubmitDesignForm)

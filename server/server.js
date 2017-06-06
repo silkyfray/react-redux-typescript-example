@@ -131,6 +131,18 @@ app.get(apiEndpoints.kApiReadDesigns, function (req, res) {
     });
 });
 
+// endpoint to read a single design
+app.get(apiEndpoints.kApiReadDesign, function (req, res) {
+  let designId = req.query.designId;
+  models.DesignModel.findOne({ "_id": designId }).exec()
+  .then(function (designs) {
+    res.status(200).json(designs);
+  })
+    .catch(function (err) {
+      res.status(400).end("Could not fetch pending designs");
+    });
+});
+
 app.get("/api/heartbeat", function (req, res) {
   res.send("Successful connection through proxy.")
 })

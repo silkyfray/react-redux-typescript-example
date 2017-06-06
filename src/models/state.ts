@@ -2,6 +2,7 @@ import * as requestInterface from "./requestInterface"
 
 export interface AppState {
     grid: GridState,
+    designForm: requestInterface.IDesignData
 }
 
 export interface GridState {
@@ -14,3 +15,5 @@ export interface GridDataState {
     skip: number,
     hasMore: boolean
 }
+
+
