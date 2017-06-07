@@ -47,6 +47,24 @@ app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
     })
 })
 
+// endpoint to update a design indexed by the design id ( can also approve)
+app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
+  let { design } = req.body.params;
+  // find the mongo object
+  models.DesignModel.findOneAndUpdate({ "_id": design._id}, design).exec()
+    .then((doc) => {
+      if (doc) {
+        // // flip the approve switch
+        // doc.pending = false;
+        doc.save();
+        res.status(200).end("Successfully approved design!");
+      }
+    })
+    .catch((error) => {
+      res.end(404).end(error);
+    })
+})
+
 // endpoint to write a new design for approval
 app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
   // parse the body for the design info

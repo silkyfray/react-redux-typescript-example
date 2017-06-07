@@ -9,7 +9,7 @@ class SubmitDesignForm extends React.Component<any, any> {
         const {handleSubmit} = this.props;
         return (
             <div>
-                <div className="container">
+                <form onSubmit={handleSubmit} className="container">
                     <div className="row">
                         <div className="six columns">
                             <label htmlFor="url">Website Url</label>
@@ -22,8 +22,8 @@ class SubmitDesignForm extends React.Component<any, any> {
                     </div>
                     <label htmlFor="description">Short Description</label>
                     <Field component="textarea" className="u-full-width" placeholder="A modern, clean b2b website..." name="description" />
-                    <button className="button-primary" onSubmit={this.props.handleSubmit}> Submit</button>
-                </div>
+                    <button className="button-primary" type="submit"> Submit</button>
+                </form>
             </div>
         )
     }
