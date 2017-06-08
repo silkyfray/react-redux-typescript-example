@@ -1,5 +1,5 @@
 import * as React from "react"
-import { IDesignData } from "../../models/requestInterface"
+import { IDesignData } from "../../models/state"
 
 interface DesignThumbnailProps {
     design: IDesignData;

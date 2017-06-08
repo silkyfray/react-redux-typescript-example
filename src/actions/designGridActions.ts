@@ -1,6 +1,6 @@
 import * as Redux from "redux"
 
-import {IDesignData} from "../models/requestInterface"
+import {IDesignData} from "../models/state"
 
 //export type DesignGridActionType = "A" | "B"
 export const Type = {

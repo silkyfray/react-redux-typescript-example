@@ -1,5 +1,4 @@
 import { GridState, GridDataState } from "../models/state"
-import { IDesignData } from "../models/requestInterface"
 import { designGridActions } from "../actions"
 
 let defaultDataState: GridDataState = { data: [], skip: 0, hasMore: true }

@@ -4,9 +4,25 @@ import { connect } from "react-redux"
 
 import * as state from "../models/state"
 
-class SubmitDesignForm extends React.Component<any, any> {
+
+interface IDesignFormStateProps {
+    initialValues: {};
+}
+
+interface IDesignFormOwnProps {
+    onSubmit(values: any): void;
+    approveMode: boolean;
+}
+
+interface IDesignFormDispatchProps {
+    handleSubmit(values: any): void;
+}
+
+type IDesignFormProps = IDesignFormStateProps & IDesignFormDispatchProps & IDesignFormOwnProps;
+
+class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
     render() {
-        const {handleSubmit} = this.props;
+        const { handleSubmit, approveMode } = this.props;
         return (
             <div>
                 <form onSubmit={handleSubmit} className="container">
@@ -22,6 +38,12 @@ class SubmitDesignForm extends React.Component<any, any> {
                     </div>
                     <label htmlFor="description">Short Description</label>
                     <Field component="textarea" className="u-full-width" placeholder="A modern, clean b2b website..." name="description" />
+                    {approveMode && <div>
+                        <label htmlFor="approved">
+                        <Field name="approved" id="approved" component="input" type="checkbox" />
+                          Approved
+                        </label>
+                    </div>}
                     <button className="button-primary" type="submit"> Submit</button>
                 </form>
             </div>
@@ -31,21 +53,22 @@ class SubmitDesignForm extends React.Component<any, any> {
 
 let ConnectedSubmitDesignForm = reduxForm({
     form: "submitDesign",
-    enableReinitialize : true
+    enableReinitialize: true
 })(SubmitDesignForm);
 
 // The values should be in the form { field1: 'value1', field2: 'value2' } i.e a Field in the form with <name> should have a key in the dictionary with <name>
-function mapStateToProps(state: state.AppState, ownProps: any) {
+function mapStateToProps(state: state.AppState): IDesignFormStateProps {
     let initialProps = {
         initialValues: {
             "url": state.designForm.url,
             "title": state.designForm.title,
             "description": state.designForm.description,
+            "approved": !state.designForm.pending
         }
     }
     return initialProps;
 }
 
-export default connect<any, any, any>(
+export default connect<IDesignFormStateProps, IDesignFormDispatchProps, IDesignFormOwnProps>(
     mapStateToProps
 )(ConnectedSubmitDesignForm)

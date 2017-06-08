@@ -4,8 +4,7 @@ import { connect } from "react-redux"
 import InfiniteScoller from "redux-infinite-scroll"
 
 import * as apiRequests from "../../middleware/apiRequests"
-import { AppState, GridState, GridDataState } from "../../models/state"
-import { IDesignData } from "../../models/requestInterface"
+import { AppState, GridState, GridDataState, IDesignData } from "../../models/state"
 
 
 import DesignThumbnail from "../stateless/DesignThumbnail"

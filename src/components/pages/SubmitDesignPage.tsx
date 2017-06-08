@@ -5,7 +5,6 @@ import * as Axios from "axios"
 import SubmitDesignForm from "../SubmitDesignForm"
 import * as api from "../../middleware/apiRequests"
 import * as state from "../../models/state"
-import { IDesignData } from "../../models/requestInterface"
 
 class SubmitDesignPage extends React.Component<any, any> {
 
@@ -21,10 +20,11 @@ class SubmitDesignPage extends React.Component<any, any> {
         }
     }
     submitDesign(values) {
-        let { url, title, description } = values;
-        let newDesign: IDesignData = { ...this.props.design };
+        let { url, title, description, approved } = values;
+        let newDesign: state.IDesignData = { ...this.props.design };
         newDesign.description = description;
         newDesign.title = title;
+        newDesign.pending = !approved;
 
         this.props.dispatch(api.updateDesign(newDesign));
     }
@@ -32,7 +32,7 @@ class SubmitDesignPage extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <SubmitDesignForm onSubmit={this.submitDesign.bind(this)} />
+                <SubmitDesignForm onSubmit={this.submitDesign.bind(this)} approveMode={!!this.props.match.params.designId}/>
             </div>
         )
     }

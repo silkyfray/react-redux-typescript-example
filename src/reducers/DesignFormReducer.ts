@@ -1,4 +1,4 @@
-import { IDesignData } from "../models/requestInterface"
+import { IDesignData } from "../models/state"
 import { designFormActions } from "../actions"
 
 

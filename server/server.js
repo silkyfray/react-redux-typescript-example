@@ -54,9 +54,6 @@ app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
   models.DesignModel.findOneAndUpdate({ "_id": design._id}, design).exec()
     .then((doc) => {
       if (doc) {
-        // // flip the approve switch
-        // doc.pending = false;
-        doc.save();
         res.status(200).end("Successfully approved design!");
       }
     })

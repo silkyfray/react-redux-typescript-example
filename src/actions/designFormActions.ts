@@ -1,6 +1,6 @@
 import * as Redux from "redux"
 
-import * as models from "../models/requestInterface"
+import * as models from "../models/state"
 
 export const Type = {
     LoadApprove: "LoadApprove",

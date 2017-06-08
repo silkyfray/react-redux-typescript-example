@@ -3,7 +3,7 @@ import axios from "axios"
 import * as api from "../../shared/apiEndpoints"
 import * as actions from "../actions"
 import { AppState, GridState, GridDataState } from "../models/state"
-import { IDesignData } from "../models/requestInterface"
+import { IDesignData } from "../models/state"
 
 const limit: number = 6;
 

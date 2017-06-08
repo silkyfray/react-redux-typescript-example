@@ -1,8 +1,6 @@
-import * as requestInterface from "./requestInterface"
-
 export interface AppState {
     grid: GridState,
-    designForm: requestInterface.IDesignData
+    designForm: IDesignData
 }
 
 export interface GridState {
@@ -11,9 +9,20 @@ export interface GridState {
 }
 
 export interface GridDataState {
-    data: requestInterface.IDesignData[],
+    data: IDesignData[],
     skip: number,
     hasMore: boolean
 }
 
-
+export interface IDesignData {
+    _id: string,
+    url:string,
+    added: Date,
+    tags: string[],
+    title: string,
+    description: string,
+    imageData: string,
+    likes: number,
+    submitterId: string,
+    pending: boolean
+}
