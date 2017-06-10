@@ -1,6 +1,7 @@
 export interface AppState {
+    form : any;
     grid: GridState,
-    designForm: IDesignData
+    loadedDesign: IDesignData
 }
 
 export interface GridState {

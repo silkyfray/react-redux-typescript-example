@@ -88,14 +88,19 @@ let ConnectedSubmitDesignForm = reduxForm({
 
 // The values should be in the form { field1: 'value1', field2: 'value2' } i.e a Field in the form with <name> should have a key in the dictionary with <name>
 function mapStateToProps(state: state.AppState): IDesignFormStateProps {
+    let currFormValues = ((state.form || {}).submitDesign || {}).values;
+    currFormValues = {...currFormValues};
+
+    currFormValues.url = currFormValues.url || state.loadedDesign.url;
+    currFormValues.title = currFormValues.title || state.loadedDesign.title;
+    currFormValues.description = currFormValues.description || state.loadedDesign.description;
+    let approved = state.loadedDesign.pending && !state.loadedDesign.pending;
+    currFormValues.approved = currFormValues.approved || approved;
+    currFormValues.websiteImage = state.loadedDesign.imageData;
+    
+    // remove undefined
     let initialProps = {
-        initialValues: {
-            "url": state.designForm.url,
-            "title": state.designForm.title,
-            "description": state.designForm.description,
-            "approved": state.designForm.pending && !state.designForm.pending,
-            "websiteImage": state.designForm.imageData
-        }
+        initialValues: currFormValues
     }
     return initialProps;
 }

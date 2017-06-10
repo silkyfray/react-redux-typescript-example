@@ -75,7 +75,7 @@ class SubmitDesignPage extends React.Component<any, any> {
 }
 
 function mapStateToProps(state: state.AppState, ownProps: any) {
-    return { design: state.designForm };
+    return { design: state.loadedDesign };
 }
 
 export default connect(mapStateToProps)(SubmitDesignPage);
