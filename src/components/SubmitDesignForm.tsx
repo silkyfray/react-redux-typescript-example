@@ -1,8 +1,33 @@
 import * as React from 'react'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { connect } from "react-redux"
+import * as Dropzone from "react-dropzone"
 
 import * as state from "../models/state"
+
+
+class ImageHolder extends React.Component<any, any> {
+    onFileChange() {
+        var file = (this.refs.file as any).files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = (e) => {
+            let imageData = reader.result.substring(reader.result.indexOf(",") + 1);
+            this.props.onImageChange(imageData);
+        }
+
+        reader.readAsDataURL(file);
+    }
+    render() {
+        let imageData = "data:image/*;base64," + this.props.input.value;
+        return (
+            <div className="ImageHolder">
+                <img src={imageData} />
+                <input ref="file" type="file" multiple={false} onChange={this.onFileChange.bind(this)} />
+            </div>
+        )
+    }
+}
 
 
 interface IDesignFormStateProps {
@@ -11,6 +36,7 @@ interface IDesignFormStateProps {
 
 interface IDesignFormOwnProps {
     onSubmit(values: any): void;
+    handleImageChange(imageData: string): void;
     approveMode: boolean;
 }
 
@@ -22,7 +48,7 @@ type IDesignFormProps = IDesignFormStateProps & IDesignFormDispatchProps & IDesi
 
 class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
     render() {
-        const { handleSubmit, approveMode } = this.props;
+        const { handleSubmit, handleImageChange, approveMode } = this.props;
         return (
             <div>
                 <form onSubmit={handleSubmit} className="container">
@@ -36,12 +62,16 @@ class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
                             <Field component="input" className="u-full-width" type="text" placeholder="Beautiful Design" name="title" />
                         </div>
                     </div>
+
+                    <label htmlFor="websiteImage">Image</label>
+                    <Field component={ImageHolder} className="u-full-width" name="websiteImage" onImageChange={handleImageChange} />
+
                     <label htmlFor="description">Short Description</label>
                     <Field component="textarea" className="u-full-width" placeholder="A modern, clean b2b website..." name="description" />
                     {approveMode && <div>
                         <label htmlFor="approved">
-                        <Field name="approved" id="approved" component="input" type="checkbox" />
-                          Approved
+                            <Field name="approved" id="approved" component="input" type="checkbox" />
+                            Approved
                         </label>
                     </div>}
                     <button className="button-primary" type="submit"> Submit</button>
@@ -63,7 +93,8 @@ function mapStateToProps(state: state.AppState): IDesignFormStateProps {
             "url": state.designForm.url,
             "title": state.designForm.title,
             "description": state.designForm.description,
-            "approved": !state.designForm.pending
+            "approved": state.designForm.pending && !state.designForm.pending,
+            "websiteImage": state.designForm.imageData
         }
     }
     return initialProps;

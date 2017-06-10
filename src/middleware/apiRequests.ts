@@ -47,14 +47,13 @@ export function readDesign(designId: string) {
     return promise;
 }
 
-export function updateDesign(design: IDesignData) {
+export function upsertDesign(design: IDesignData) {
     let promise = (dispatch, getState) => {
-        axios.put(api.kApiSubmitDesign, {
-            params: {
-                design: design
-            }
-        }).then(result => {
-            console.log("Updated design")
+        let req = design._id ? axios.put(api.kApiSubmitDesign, { design: design })
+                             : axios.post(api.kApiSubmitDesign, { ...design });
+        
+        req.then(result => {
+            console.log(result);
         })
         // TODO: do reporting
         .catch(err => {

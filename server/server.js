@@ -3,7 +3,7 @@ var express = require('express')
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var bodyParser = require("body-parser")
-var url = require("url");
+var urlLib = require("url");
 var http = require("http");
 var rp = require("request-promise");
 
@@ -49,9 +49,9 @@ app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
 
 // endpoint to update a design indexed by the design id ( can also approve)
 app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
-  let { design } = req.body.params;
+  let { design } = req.body;
   // find the mongo object
-  models.DesignModel.findOneAndUpdate({ "_id": design._id}, design).exec()
+  models.DesignModel.findOneAndUpdate({ "_id": design._id }, design).exec()
     .then((doc) => {
       if (doc) {
         res.status(200).end("Successfully approved design!");
@@ -65,15 +65,15 @@ app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
 // endpoint to write a new design for approval
 app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
   // parse the body for the design info
-  let { designUrl, title, description } = req.body;
+  let { url, title, description, imageData } = req.body;
 
-  if (!(designUrl.startsWith("http") && designUrl.startsWith("https"))) {
+  if (!(url.startsWith("http") && url.startsWith("https"))) {
     // assume http
-    designUrl = "http://" + designUrl;
+    url = "http://" + url;
   }
 
   var options = {
-    uri: designUrl,
+    uri: url,
     followRedirect: true,
   }
   rp.get(options)
@@ -83,7 +83,7 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
     })
     .then(function () {
       // get the hostname to verify uniqueness
-      let parsedUrl = url.parse(designUrl);
+      let parsedUrl = urlLib.parse(url);
       let hostname = parsedUrl.hostname;
       // hostname only passes if the user entered the protocol. If he didn't then take the pathname as the web url
       if (!hostname)
@@ -95,16 +95,17 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
       // end request if found
       if (design) {
         throw new Error("A url for that website has already been submitted before.")
-      }
-      else {
-        return helpers.getUrlSnapshost(designUrl);
+      } else if (imageData) {
+        Promise.resolve(imageData);
+      } else {
+        return helpers.getUrlSnapshost(url);
       }
       // take a snaphost of the website
     })
     .then(function (image) {
       // create a model
       let designModel = new models.DesignModel({
-        url: designUrl,
+        url: url,
         description: description,
         title: title,
         imageData: image,
@@ -114,7 +115,7 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
       return designModel.save();
     })
     .then(function (design) {
-      res.status(200).send("Entered submission for:" + designUrl);
+      res.status(200).send("Entered submission for:" + url);
     })
     .catch(function (err) {
       res.status(400).send("Could not fulfill request. Reason:" + err);
@@ -137,7 +138,7 @@ app.get(apiEndpoints.kApiReadDesigns, function (req, res) {
   let skip = parseInt(req.query.skip);
   let limit = parseInt(req.query.limit);
   let pending = (req.query.approval == "true");
-  let findPending = models.DesignModel.find({ "pending": pending }, null, {"skip": skip, "limit": limit}).exec();
+  let findPending = models.DesignModel.find({ "pending": pending }, null, { "skip": skip, "limit": limit }).exec();
   findPending.then(function (designs) {
     res.status(200).json(designs);
   })
@@ -150,9 +151,9 @@ app.get(apiEndpoints.kApiReadDesigns, function (req, res) {
 app.get(apiEndpoints.kApiReadDesign, function (req, res) {
   let designId = req.query.designId;
   models.DesignModel.findOne({ "_id": designId }).exec()
-  .then(function (designs) {
-    res.status(200).json(designs);
-  })
+    .then(function (designs) {
+      res.status(200).json(designs);
+    })
     .catch(function (err) {
       res.status(400).end("Could not fetch pending designs");
     });

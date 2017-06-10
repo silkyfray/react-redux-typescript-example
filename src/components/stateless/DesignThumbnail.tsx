@@ -12,7 +12,7 @@ class DesignThumbnail extends React.Component<DesignThumbnailProps, any> {
         this.props.onClick(this.props.design._id);
     } 
     render() {
-        let imageData = "data:image/jpg;base64," + this.props.design.imageData;
+        let imageData = "data:image/*;base64," + this.props.design.imageData;
 
         return (<a className="DesignItem" onClick={this.callbackFn.bind(this)} style={{ cursor: 'pointer' }}>
             <img src={imageData} />

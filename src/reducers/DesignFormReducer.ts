@@ -7,7 +7,11 @@ const DesignFormReducer = (state: IDesignData, action: designFormActions.DesignF
     switch (action.type) {
         case designFormActions.Type.LoadApprove:
             {
-                return action.design;
+                return action.design || state;
+            }
+        case designFormActions.Type.LoadImageData:
+            {
+                return {...state, imageData: action.imageData} as IDesignData
             }
     }
     return state;
