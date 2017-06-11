@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from "react-redux"
 import * as Axios from "axios"
 
-import SubmitDesignForm from "../SubmitDesignForm"
+import SubmitDesignForm from "../stateless/SubmitDesignForm"
 import * as api from "../../middleware/apiRequests"
 import * as state from "../../models/state"
 import * as designActions from "../../actions/designFormActions"

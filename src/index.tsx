@@ -12,13 +12,14 @@ import reducers from './reducers'
 
 // routing
 import createHistory from 'history/createHashHistory'
-import { Route } from 'react-router'
+import { Route, Redirect } from 'react-router'
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 // logger
 import logger from 'redux-logger'
 
 //Components
+import MainContainer from "./components/containers/MainContainer"
 import ApprovalPage from "./components/pages/ApprovalPage"
 import CatalogPage from "./components/pages/CatalogPage"
 import SubmitDesignPage from "./components/pages/SubmitDesignPage"
@@ -26,7 +27,7 @@ import UserSettingsPage from "./components/pages/UserSettingsPage"
 import DesignViewPage from "./components/pages/DesignViewPage"
 
 //Models
-import {AppState} from "./models/state"
+import { AppState } from "./models/state"
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -51,14 +52,16 @@ const store = createStore<AppState>(
 
 ReactDOM.render(
   <Provider store={store}>
-    { /* ConnectedRouter will use the store from Provider automatically */ }
+    { /* ConnectedRouter will use the store from Provider automatically */}
     <ConnectedRouter history={history}>
       <div>
-        <Route exact path="/" component={CatalogPage}/>
-        <Route path="/design/:designId" component={DesignViewPage}/>
-        <Route path="/approval" component={ApprovalPage}/>
-        <Route path="/submit/:designId?" component={SubmitDesignPage}/>
-        <Route path="/settings" component={UserSettingsPage}/>
+        <Route path="/" component={MainContainer}/>
+        <Route path="/catalog" component={CatalogPage} />
+        <Route path="/design/:designId" component={DesignViewPage} />
+        <Route path="/approval" component={ApprovalPage} />
+        <Route path="/submit/:designId?" component={SubmitDesignPage} />
+        <Route path="/settings" component={UserSettingsPage} />
+        <Redirect from="/" to="/catalog" />
       </div>
     </ConnectedRouter>
   </Provider>,

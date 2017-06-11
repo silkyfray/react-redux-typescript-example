@@ -1,3 +1,5 @@
+@import "variables"; 
+
 html, body {
   margin: 0;
   height: 100%;
@@ -37,4 +39,32 @@ html, body {
   input[type="file"] {
     display: block;
   }
+}
+
+.TopNav {
+  .Heading{
+    font-weight: bold;
+    display:inline-block;
+    margin: 0 20px 0 0;
+  }
+  padding: 10px;
+  background-color: $primary-color;
+  ul {
+    display:inline;
+    text-align: center;
+    list-style: none;
+  }
+  li {
+    margin: 0 10px 0 10px;
+    display: inline-block;
+  }
+  a {
+    display:block;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.ActiveLink {
+  color: $secondary-color !important;
 }

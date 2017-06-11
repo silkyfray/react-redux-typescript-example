@@ -60,11 +60,6 @@ class DesignGridContainer extends React.Component<IDesignGridProps, any> {
         this.props.readDesigns();
     }
 
-    onClickHandler(designId: string) {
-        let callbackUrlBase = this.props.approval ? "approval" : "design";
-        console.log("hi", designId);
-    }
-
     createData() {
         let gridData = this.props.gridState.data;
         return gridData.map(function (design, key) {
