@@ -19,11 +19,11 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 import logger from 'redux-logger'
 
 //Components
-import CatalogPage from "./components/pages/CatalogPage"
-import UserSettingsPage from "./components/pages/UserSettingsPage"
-import SubmitDesignPage from "./components/pages/SubmitDesignPage"
 import ApprovalPage from "./components/pages/ApprovalPage"
-import ApproveDesignPage from "./components/pages/ApproveDesignPage"
+import CatalogPage from "./components/pages/CatalogPage"
+import SubmitDesignPage from "./components/pages/SubmitDesignPage"
+import UserSettingsPage from "./components/pages/UserSettingsPage"
+import DesignViewPage from "./components/pages/DesignViewPage"
 
 //Models
 import {AppState} from "./models/state"
@@ -55,6 +55,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={CatalogPage}/>
+        <Route path="/design/:designId" component={DesignViewPage}/>
         <Route path="/approval" component={ApprovalPage}/>
         <Route path="/submit/:designId?" component={SubmitDesignPage}/>
         <Route path="/settings" component={UserSettingsPage}/>

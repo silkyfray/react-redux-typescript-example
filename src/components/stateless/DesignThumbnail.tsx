@@ -16,7 +16,6 @@ class DesignThumbnail extends React.Component<DesignThumbnailProps, any> {
 
         return (<a className="DesignItem" onClick={this.callbackFn.bind(this)} style={{ cursor: 'pointer' }}>
             <img src={imageData} />
-            <div>{this.props.design.url}</div>
         </a>)
     }
 
