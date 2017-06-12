@@ -14,7 +14,8 @@ html, body {
   background-color: #eee;
 }
 
-.DesignItem { 
+.DesignItem {
+  position: relative; 
   min-width: 400px;
   flex-basis: 30%;
   margin: 10px;
@@ -22,6 +23,31 @@ html, body {
   img {
     width: 100%;
   }
+}
+
+.DarkOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0, .5);
+  transition: .5s ease;
+  opacity: 0;
+
+  color: white;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.DarkOverlay:hover {
+  opacity: 1;
 }
 
 .redux-infinite-scroll {

@@ -17,6 +17,9 @@ class DesignThumbnail extends React.Component<DesignThumbnailProps, any> {
         return (
             <a className="DesignItem" onClick={this.callbackFn.bind(this)} style={{ cursor: 'pointer' }}>
                 <img src={imageData} />
+                <div className="DarkOverlay">
+                    <h5>{this.props.design.title}</h5>
+                </div>
             </a>)
     }
 
