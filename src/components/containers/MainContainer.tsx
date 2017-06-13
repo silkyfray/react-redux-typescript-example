@@ -1,44 +1,11 @@
 import * as React from 'react'
 import { push } from "react-router-redux"
 import { connect } from "react-redux"
-import {NavLink, Link} from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 import InfiniteScoller from "redux-infinite-scroll"
+import * as Notifications from 'react-notification-system-redux';
 
 import { AppState } from "../../models/state"
-
-interface IDesignGridStateProps {
-}
-
-interface IDesignGridDispatchProps {
-}
-
-interface IDesignGridOwnProps {
-}
-
-type IDesignGridProps = IDesignGridStateProps & IDesignGridDispatchProps & IDesignGridOwnProps;
-
-// function mapStateToProps(state: AppState, ownProps: IDesignGridOwnProps) {
-//     let newProps = { gridState: ownProps.approval ? state.grid.approval : state.grid.catalog }
-//     return newProps;
-// }
-
-// function mapDispatchToProps(dispatch, ownProps: IDesignGridOwnProps) {
-//     let readDesigns = (): void => dispatch(apiRequests.loadDesigns(ownProps.approval));
-
-//     let onClickHandler = (designId: string) : void => {
-//         let callbackUrlBase = ownProps.approval ? "submit" : "design";
-//         console.log("hi", designId);
-//         dispatch(push("/" + callbackUrlBase + "/" + designId));
-//     }
-
-//     let newProps = { readDesigns, onClickHandler }
-//     return newProps;
-// }
-
-// function mergeProps(stateProps, dispatchProps, ownProps) {
-//     let newProps = { ...stateProps, ...dispatchProps, ...ownProps };
-//     return newProps;
-// }
 
 class MainContainer extends React.Component<any, any> {
     constructor(props) {
@@ -47,8 +14,9 @@ class MainContainer extends React.Component<any, any> {
 
     componentDidMount() {
     }
- 
+
     render() {
+        const { notifications } = this.props;
         return (
             <div>
                 {/*Top toolbar*/}
@@ -61,9 +29,10 @@ class MainContainer extends React.Component<any, any> {
                     </ul>
                 </nav>
                 {this.props.children}
+                <Notifications notifications={notifications} />
             </div>
         )
     }
 }
 
-export default connect()(MainContainer);
+export default connect<any, any, any>(state => ({ notifications: state.notifications }))(MainContainer);

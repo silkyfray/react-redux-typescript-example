@@ -54,7 +54,7 @@ app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
   models.DesignModel.findOneAndUpdate({ "_id": design._id }, design).exec()
     .then((doc) => {
       if (doc) {
-        res.status(200).end("Successfully approved design!");
+        res.status(200).end("Successfully updated design!");
       }
     })
     .catch((error) => {
@@ -115,10 +115,10 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
       return designModel.save();
     })
     .then(function (design) {
-      res.status(200).send("Entered submission for:" + url);
+      res.status(200).send("Thank you for your contribution. We will review your submission promptly.");
     })
     .catch(function (err) {
-      res.status(400).send("Could not fulfill request. Reason:" + err);
+      res.status(400).send(err);
     })
 })
 

@@ -76,6 +76,20 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-notification-system-redux@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-notification-system-redux/-/react-notification-system-redux-1.0.2.tgz#d5e6a8fcb5db707f6cf82020034c9e98c82ee8eb"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-notification-system" "*"
+    redux "^3.6.0"
+
+"@types/react-notification-system@*":
+  version "0.2.34"
+  resolved "https://registry.yarnpkg.com/@types/react-notification-system/-/react-notification-system-0.2.34.tgz#ae00df0dc591cb3c7d42fddc56b8225f77c64b55"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^4.4.40":
   version "4.4.40"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-4.4.40.tgz#268d1a9b9a42e52562450e2c306630fa38db36ad"
@@ -892,7 +906,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.3:
+create-react-class@^15.5.1, create-react-class@^15.5.3:
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.3.tgz#fb0f7cae79339e9a179e194ef466efa3923820fe"
   dependencies:
@@ -3324,7 +3338,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -3451,6 +3465,21 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "~15.5.7"
+
+react-notification-system-redux@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-notification-system-redux/-/react-notification-system-redux-1.1.2.tgz#d385b98099aeb9ce61406042f7ab78feec5f3f49"
+  dependencies:
+    prop-types "^15.5.8"
+    react-notification-system "^0.2.x"
+
+react-notification-system@^0.2.x:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/react-notification-system/-/react-notification-system-0.2.14.tgz#21f917f39feee145516864350875041433c4d5c0"
+  dependencies:
+    create-react-class "^15.5.1"
+    object-assign "^4.0.1"
+    prop-types "^15.5.6"
 
 react-redux@^5.0.4:
   version "5.0.5"

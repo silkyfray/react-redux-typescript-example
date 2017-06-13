@@ -1,4 +1,7 @@
 import axios from "axios"
+import * as Notifications from 'react-notification-system-redux';
+import { Notification } from 'react-notification-system';
+import {push} from "react-router-redux"
 
 import * as api from "../../shared/apiEndpoints"
 import * as actions from "../actions"
@@ -6,6 +9,25 @@ import { AppState, GridState, GridDataState } from "../models/state"
 import { IDesignData } from "../models/state"
 
 const limit: number = 6;
+
+// TODO: add in helper file
+let getErrorNotification = (error: string) => {
+    return {
+        title: "Something went wrong :(",
+        message: error,
+        position: "bc",
+        autoDismiss: 60
+    } as Notification
+}
+
+let getSuccessNotification = (message: string) => {
+    return {
+        title: "Success",
+        message: message,
+        position: "bc",
+        autoDismiss: 5
+    } as Notification
+}
 
 export function loadDesigns(approval: boolean) {
     let promise = (dispatch, getState) => {
@@ -20,11 +42,9 @@ export function loadDesigns(approval: boolean) {
                 : dispatch(actions.designGridActions.populateCatalogGrid(data.data))
 
         })
-        // TODO: do reporting
-        .catch(err => {
-            let x = 0;
-            // dispatch(actions.designGridActions.reportFetchError(err))
-        })
+            .catch(err => {
+                dispatch(Notifications.error(getErrorNotification(err.response.data.message)))
+            })
     }
     return promise;
 }
@@ -38,11 +58,9 @@ export function readDesign(designId: string) {
         }).then(data => {
             dispatch(actions.designFormActions.loadApprove(data.data))
         })
-        // TODO: do reporting
-        .catch(err => {
-            let x = 0;
-            //dispatch(actions.designGridActions.reportFetchError(err))
-        })
+            .catch(err => {
+                dispatch(Notifications.error(getErrorNotification(err.response.data.message)))
+            })
     }
     return promise;
 }
@@ -50,16 +68,15 @@ export function readDesign(designId: string) {
 export function upsertDesign(design: IDesignData) {
     let promise = (dispatch, getState) => {
         let req = design._id ? axios.put(api.kApiSubmitDesign, { design: design })
-                             : axios.post(api.kApiSubmitDesign, { ...design });
-        
+            : axios.post(api.kApiSubmitDesign, { ...design });
+
         req.then(result => {
-            console.log(result);
+            dispatch(Notifications.success(getSuccessNotification(result.data)))
+            dispatch(push("/catalog"))
         })
-        // TODO: do reporting
-        .catch(err => {
-            let x = 0;
-            //dispatch(actions.designGridActions.reportFetchError(err))
-        })
+            .catch(err => {
+                dispatch(Notifications.error(getErrorNotification(err.response.data.message)))
+            })
     }
     return promise;
 }

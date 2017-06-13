@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import * as state from "../../models/state"
 
-
+// TODO: put in own file
 class ImageHolder extends React.Component<any, any> {
     onFileChange() {
         var file = (this.refs.file as any).files[0];
@@ -14,7 +14,7 @@ class ImageHolder extends React.Component<any, any> {
             let imageData = reader.result.substring(reader.result.indexOf(",") + 1);
             this.props.onImageChange(imageData);
         }
-
+ 
         reader.readAsDataURL(file);
     }
     render() {
