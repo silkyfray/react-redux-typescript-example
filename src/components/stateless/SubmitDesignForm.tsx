@@ -1,24 +1,35 @@
 import * as React from 'react'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { Field, reduxForm, formValueSelector, FormProps } from 'redux-form'
 import { connect } from "react-redux"
 
 import * as state from "../../models/state"
 
 // TODO: put in own file
 class ImageHolder extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            imageData: ""
+        }
+    }
+    componentWillMount(){
+        this.setState({imageData: this.props.input.value})
+    }
+
     onFileChange() {
         var file = (this.refs.file as any).files[0];
         var reader = new FileReader();
 
         reader.onloadend = (e) => {
             let imageData = reader.result.substring(reader.result.indexOf(",") + 1);
-            this.props.onImageChange(imageData);
+            this.props.onImageChange && this.props.onImageChange(imageData);
+
+            this.setState({imageData: imageData});
         }
- 
         reader.readAsDataURL(file);
     }
     render() {
-        let imageData = "data:image/*;base64," + this.props.input.value;
+        let imageData = "data:image/*;base64," + this.state.imageData;
         return (
             <div className="ImageHolder">
                 <img src={imageData} />
@@ -28,26 +39,27 @@ class ImageHolder extends React.Component<any, any> {
     }
 }
 
-
 interface IDesignFormStateProps {
     initialValues: {};
 }
 
 interface IDesignFormOwnProps {
     onSubmit(values: any): void;
-    handleImageChange(imageData: string): void;
     approveMode: boolean;
 }
 
 interface IDesignFormDispatchProps {
-    handleSubmit(values: any): void;
 }
 
-type IDesignFormProps = IDesignFormStateProps & IDesignFormDispatchProps & IDesignFormOwnProps;
+type IDesignFormProps = FormProps<any, any, any> & IDesignFormStateProps & IDesignFormDispatchProps & IDesignFormOwnProps;
 
 class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
+    componentWillUnmount() {
+        const { reset } = this.props;
+    }
+
     render() {
-        const { handleSubmit, handleImageChange, approveMode } = this.props;
+        const { handleSubmit, approveMode } = this.props;
         return (
             <div>
                 <form onSubmit={handleSubmit} className="container">
@@ -63,7 +75,7 @@ class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
                     </div>
 
                     <label htmlFor="websiteImage">Image</label>
-                    <Field component={ImageHolder} className="u-full-width" name="websiteImage" onImageChange={handleImageChange} />
+                    <Field component={ImageHolder} className="u-full-width" name="websiteImage" />
 
                     <label htmlFor="description">Short Description</label>
                     <Field component="textarea" className="u-full-width" placeholder="A modern, clean b2b website..." name="description" />
@@ -87,21 +99,15 @@ let ConnectedSubmitDesignForm = reduxForm({
 
 // The values should be in the form { field1: 'value1', field2: 'value2' } i.e a Field in the form with <name> should have a key in the dictionary with <name>
 function mapStateToProps(state: state.AppState): IDesignFormStateProps {
-    let currFormValues = ((state.form || {}).submitDesign || {}).values;
-    currFormValues = {...currFormValues};
-
-    currFormValues.url = currFormValues.url || state.loadedDesign.url;
-    currFormValues.title = currFormValues.title || state.loadedDesign.title;
-    currFormValues.description = currFormValues.description || state.loadedDesign.description;
-    let approved = state.loadedDesign.pending && !state.loadedDesign.pending;
-    currFormValues.approved = currFormValues.approved || approved;
-    currFormValues.websiteImage = state.loadedDesign.imageData;
-    
-    // remove undefined
-    let initialProps = {
-        initialValues: currFormValues
+    let values = {
+        url: state.loadedDesign.url,
+        description: state.loadedDesign.description,
+        title: state.loadedDesign.title,
+        approved: state.loadedDesign.pending && !state.loadedDesign.pending,
+        websiteImage: state.loadedDesign.imageData
     }
-    return initialProps;
+
+    return { initialValues: values };
 }
 
 export default connect<IDesignFormStateProps, IDesignFormDispatchProps, IDesignFormOwnProps>(

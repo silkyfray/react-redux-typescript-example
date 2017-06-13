@@ -49,7 +49,7 @@ class SubmitDesignPage extends React.Component<any, any> {
             this.assignValuesToDesign(existingDesign, values);
             this.props.dispatch(api.upsertDesign(existingDesign));
         } else {
-            // if we are submiting a new design then send a a add request
+            // if we are submiting a new design then send an add request
             let newDesign: state.IDesignData = { } as any;
             this.assignValuesToDesign(newDesign, values);
             this.props.dispatch(api.upsertDesign(newDesign));
@@ -57,17 +57,11 @@ class SubmitDesignPage extends React.Component<any, any> {
 
     }
 
-    handleImageChange(imageData: string) {
-        // update the design form state with the new image.
-        this.props.dispatch(designActions.loadImageData(imageData));
-    }
-
     render() {
         return (
             <div>
                 <SubmitDesignForm
                     onSubmit={this.submitDesign.bind(this)}
-                    handleImageChange={this.handleImageChange.bind(this)}
                     approveMode={this.state.appproveMode} />
             </div>
         )

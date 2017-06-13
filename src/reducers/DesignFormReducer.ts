@@ -9,10 +9,7 @@ const DesignFormReducer = (state: IDesignData, action: designFormActions.DesignF
             {
                 return action.design || state;
             }
-        case designFormActions.Type.LoadImageData:
-            {
-                return {...state, imageData: action.imageData} as IDesignData
-            }
+
     }
     return state;
 }
