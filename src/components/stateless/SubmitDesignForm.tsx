@@ -3,6 +3,7 @@ import { Field, reduxForm, formValueSelector, FormProps } from 'redux-form'
 import { connect } from "react-redux"
 
 import * as state from "../../models/state"
+import { designFormActions } from "../../actions"
 
 // TODO: put in own file
 class ImageHolder extends React.Component<any, any> {
@@ -12,8 +13,8 @@ class ImageHolder extends React.Component<any, any> {
             imageData: ""
         }
     }
-    componentWillMount(){
-        this.setState({imageData: this.props.input.value})
+    componentWillReceiveProps(props) {
+        this.setState({ imageData: props.input.value })
     }
 
     onFileChange() {
@@ -24,7 +25,7 @@ class ImageHolder extends React.Component<any, any> {
             let imageData = reader.result.substring(reader.result.indexOf(",") + 1);
             this.props.onImageChange && this.props.onImageChange(imageData);
 
-            this.setState({imageData: imageData});
+            this.setState({ imageData: imageData });
         }
         reader.readAsDataURL(file);
     }
@@ -49,14 +50,12 @@ interface IDesignFormOwnProps {
 }
 
 interface IDesignFormDispatchProps {
+    unloadDesign(): void;
 }
 
 type IDesignFormProps = FormProps<any, any, any> & IDesignFormStateProps & IDesignFormDispatchProps & IDesignFormOwnProps;
 
 class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
-    componentWillUnmount() {
-        const { reset } = this.props;
-    }
 
     render() {
         const { handleSubmit, approveMode } = this.props;
@@ -98,7 +97,10 @@ let ConnectedSubmitDesignForm = reduxForm({
 })(SubmitDesignForm);
 
 // The values should be in the form { field1: 'value1', field2: 'value2' } i.e a Field in the form with <name> should have a key in the dictionary with <name>
-function mapStateToProps(state: state.AppState): IDesignFormStateProps {
+function mapStateToProps(state: state.AppState, ownProps): IDesignFormStateProps {
+    if(!ownProps.approveMode)
+        return { initialValues: {}};
+        
     let values = {
         url: state.loadedDesign.url,
         description: state.loadedDesign.description,

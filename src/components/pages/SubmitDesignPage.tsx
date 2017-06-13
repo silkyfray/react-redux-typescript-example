@@ -62,7 +62,7 @@ class SubmitDesignPage extends React.Component<any, any> {
             <div>
                 <SubmitDesignForm
                     onSubmit={this.submitDesign.bind(this)}
-                    approveMode={this.state.appproveMode} />
+                    approveMode={this.state.approveMode} />
             </div>
         )
     }
