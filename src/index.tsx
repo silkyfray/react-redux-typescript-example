@@ -20,11 +20,6 @@ import logger from 'redux-logger'
 
 //Components
 import MainContainer from "./components/containers/MainContainer"
-import ApprovalPage from "./components/pages/ApprovalPage"
-import CatalogPage from "./components/pages/CatalogPage"
-import SubmitDesignPage from "./components/pages/SubmitDesignPage"
-import UserSettingsPage from "./components/pages/UserSettingsPage"
-import DesignViewPage from "./components/pages/DesignViewPage"
 
 //Models
 import { AppState } from "./models/state"
@@ -54,15 +49,7 @@ ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */}
     <ConnectedRouter history={history}>
-      <div>
         <Route path="/" component={MainContainer}/>
-        <Route path="/catalog" component={CatalogPage} />
-        <Route path="/design/:designId" component={DesignViewPage} />
-        <Route path="/approval" component={ApprovalPage} />
-        <Route path="/submit/:designId?" component={SubmitDesignPage} />
-        <Route path="/settings" component={UserSettingsPage} />
-        <Redirect from="/" to="/catalog" />
-      </div>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('app')

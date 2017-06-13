@@ -34,8 +34,7 @@ function mapDispatchToProps(dispatch, ownProps: IDesignGridOwnProps) {
 
     let onClickHandler = (designId: string) : void => {
         let callbackUrlBase = ownProps.approval ? "submit" : "design";
-        console.log("hi", designId);
-        dispatch(push("/" + callbackUrlBase + "/" + designId));
+        dispatch(push(callbackUrlBase + "/" + designId));
     }
 
     let newProps = { readDesigns, onClickHandler }

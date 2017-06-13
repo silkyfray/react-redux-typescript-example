@@ -72,7 +72,7 @@ export function upsertDesign(design: IDesignData) {
 
         req.then(result => {
             dispatch(Notifications.success(getSuccessNotification(result.data)))
-            dispatch(push("/catalog"))
+            dispatch(push("/"))
         })
             .catch(err => {
                 dispatch(Notifications.error(getErrorNotification(err.response.data.message)))
