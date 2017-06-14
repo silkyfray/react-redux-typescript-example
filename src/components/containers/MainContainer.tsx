@@ -33,15 +33,13 @@ class MainContainer extends React.Component<any, any> {
                         <li><NavLink exact to="/approval" activeClassName="ActiveLink">Approve</NavLink></li>
                     </ul>
                 </nav>
-                <div className="container">
-                    <div className="row">
-                        <div className="twelve columns">
-                            <Route exact path={match.url} component={CatalogPage} />
-                            <Route exact path={match.url + "design/:designId"} component={DesignViewPage} />
-                            <Route exact path={match.url + "submit/:designId?"} component={SubmitDesignPage} />
-                            <Route exact path={match.url + "approval"} component={ApprovalPage} />
-                            <Route exact path={match.url + "settings"} component={UserSettingsPage} />
-                        </div>
+                <div className="container" style={{marginTop: "20px"}}>
+                    <div className="u-full-width">
+                        <Route exact path={match.url} component={CatalogPage} />
+                        <Route exact path={match.url + "design/:designId"} component={DesignViewPage} />
+                        <Route exact path={match.url + "submit/:designId?"} component={SubmitDesignPage} />
+                        <Route exact path={match.url + "approval"} component={ApprovalPage} />
+                        <Route exact path={match.url + "settings"} component={UserSettingsPage} />
                     </div>
                 </div>
                 <Notifications notifications={notifications} />

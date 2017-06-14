@@ -27,15 +27,13 @@ html, body {
   }
 }
 
-.DarkOverlay {
+@mixin Overlay($color){
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0,0,0, .5);
+  background-color: $color;
   transition: .5s ease;
   opacity: 0;
 
@@ -46,11 +44,22 @@ html, body {
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.DarkOverlay:hover {
-  opacity: 1;
+.DarkOverlay {
+  @include Overlay(rgba(0,0,0, .5));
+
 }
+
+.LightOverlay {
+  @include Overlay(rgba(0,0,0, .2));
+
+}
+
 
 .redux-infinite-scroll {
   overflow: hidden;
@@ -60,8 +69,8 @@ html, body {
   width: 100%;
 
   img {
+    border: 1px solid $primary-color;
     max-width:100%;
-    max-height: 540px;   
   }
 
   input[type="file"] {

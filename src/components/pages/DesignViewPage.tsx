@@ -23,12 +23,16 @@ class DesignViewPage extends React.Component<any, any> {
         let imageData = "data:image/*;base64," + design.imageData;
 
         return (
-            <div>
-                <h3>{design.title}</h3>
-                <a className="DesignItem" href={design.url} style={{ cursor: 'pointer' }}>
-                    <img src={imageData} />
-                </a>
+            <div >
+                <h4 style={{marginBottom:"10px"}}>{design.title}</h4>
                 <a href={design.url}>{design.url}</a>
+                <a href={design.url} style={{ cursor: 'pointer' }}>
+                    <div className="ImageHolder" style={{position:"relative"}}>
+                        <img src={imageData} />
+                        <div className="LightOverlay" />
+                    </div>
+                </a>
+                <br/>
                 <p>{design.description}</p>
             </div>
         )
