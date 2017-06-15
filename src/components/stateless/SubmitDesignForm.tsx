@@ -35,6 +35,7 @@ class ImageHolder extends React.Component<any, any> {
             <div className="ImageHolder">
                 <img src={imageData} />
                 <input ref="file" type="file" multiple={false} onChange={this.onFileChange.bind(this)} />
+                <div>*If you don't give an image, one will be generated on the server.</div>
             </div>
         )
     }
@@ -65,7 +66,7 @@ class SubmitDesignForm extends React.Component<IDesignFormProps, any> {
                     <div className="row">
                         <div className="six columns">
                             <label htmlFor="url">Website Url</label>
-                            <Field component="input" className="u-full-width" type="text" placeholder="www.beautifuldesign.com" name="url" />
+                            <Field component="input" className="u-full-width" type="text" placeholder="www.teamliquid.net/" name="url" />
                         </div>
                         <div className="six columns">
                             <label htmlFor="title">Title</label>
