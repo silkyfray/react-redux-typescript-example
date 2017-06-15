@@ -1,6 +1,6 @@
 # React-Redux-Typescript-Example
 
-This app show demonstrates a React.js frontend used in conjunction with a small Node.js backend using a Mongo database.
+This app demonstrates a React.js frontend used in conjunction with a small Node.js backend using a Mongo database.
 The app is a webdesign inspiration website. A user can submit designs for approval. A infinite scroll grid displays all the approved designs.
 
 This project intends to demonstrate React fundamentals in Typescript. See the [Features](##Features) section for more details.
