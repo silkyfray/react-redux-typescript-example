@@ -38,6 +38,8 @@ app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
       if (doc) {
         // flip the approve switch
         doc.pending = false;
+        let dateNow = Date.now()
+        doc.modified = dateNow;
         doc.save();
         res.status(200).end("Successfully approved design!");
       }
@@ -50,6 +52,8 @@ app.post(apiEndpoints.kApiApproveDesign, function (req, res) {
 // endpoint to update a design indexed by the design id ( can also approve)
 app.put(apiEndpoints.kApiSubmitDesign, function (req, res) {
   let { design } = req.body;
+  let dateNow = Date.now()
+  design.modified = dateNow;
   // find the mongo object
   models.DesignModel.findOneAndUpdate({ "_id": design._id }, design).exec()
     .then((doc) => {
@@ -103,13 +107,15 @@ app.post(apiEndpoints.kApiSubmitDesign, function (req, res) {
       // take a snaphost of the website
     })
     .then(function (image) {
+      let dateNow = Date.now();
       // create a model
       let designModel = new models.DesignModel({
         url: url,
         description: description,
         title: title,
         imageData: image,
-        added: Date.now(),
+        added: dateNow,
+        modified: dateNow,
         pending: true
       });
       return designModel.save();
@@ -138,7 +144,7 @@ app.get(apiEndpoints.kApiReadDesigns, function (req, res) {
   let skip = parseInt(req.query.skip);
   let limit = parseInt(req.query.limit);
   let pending = (req.query.approval == "true");
-  let findPending = models.DesignModel.find({ "pending": pending }, null, { "skip": skip, "limit": limit }).exec();
+  let findPending = models.DesignModel.find({ "pending": pending }, null, { "skip": skip, "limit": limit, sort: { added: -1 } }).exec();
   findPending.then(function (designs) {
     res.status(200).json(designs);
   })

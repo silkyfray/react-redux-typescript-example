@@ -39,7 +39,6 @@ var submitData = [
     "www.microsoft.com",
     "www.wordpress.com",
     "www.google.ca",
-    "www.livejasmin.com",
     "www.twitch.tv",
     "www.aliexpress.com",
     "www.google.co.uk",
@@ -66,7 +65,6 @@ var submitData = [
     "www.microsoft.com",
     "www.wordpress.com",
     "www.google.ca",
-    "www.livejasmin.com",
     "www.twitch.tv",
 
 ]
@@ -96,7 +94,6 @@ let approvedData = [
     "www.microsoft.com",
     "www.wordpress.com",
     "www.google.ca",
-    "www.livejasmin.com",
     "www.twitch.tv",
     "www.aliexpress.com"
 ]

@@ -5,6 +5,7 @@ var DesignSchema = mongoose.Schema({
     id: Schema.Types.ObjectId,
     url: String,
     added: Date,
+    modified: Date,
     tags: Array,
     title: String,
     description: String,
