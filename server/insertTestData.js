@@ -98,29 +98,14 @@ let approvedData = [
     "www.aliexpress.com"
 ]
 
-// submitData.forEach(function (design) {
-//     var options = {
-//         method: 'POST',
-//         uri: "http://localhost:3001" + constants.kApiSubmitDesign,
-//         body: {
-//             designUrl: design,
-//             title: "This website looks really good",
-//             description: "Some description"
-//         },
-//         json: true // Automatically stringifies the body to JSON
-//     };
-//     console.log("posting: " + design);
-//     rp.post(options)
-//         .then(response => console.log(response))
-//         .catch(response => console.log(response));
-// })
-
-approvedData.forEach(function (design) {
+submitData.forEach(function (design) {
     var options = {
         method: 'POST',
-        uri: "http://localhost:3001" + constants.kApiApproveDesign,
+        uri: "http://localhost:3001" + constants.kApiSubmitDesign,
         body: {
-            designUrl: design,
+            url: design,
+            title: "This website looks really good",
+            description: "Some description"
         },
         json: true // Automatically stringifies the body to JSON
     };
