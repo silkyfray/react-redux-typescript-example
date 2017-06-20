@@ -76,6 +76,14 @@ Fork. Change. Pull Request to master. Simples.
 
 You will be added to [Contributors](Contributors.md) :)
 
+## Troubleshooting
+
+#### I am on Windows and see this error when I run "npm install" - "if not defined npm_config_node_gyp"
+This means some Windows specific dependencies are not found on the system. From command line with admin priviledges run this command: 
+```
+npm install --global --production windows-build-tools
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [License.md](License.md) file for details.
